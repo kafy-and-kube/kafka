@@ -1,19 +1,18 @@
 {
   "name": "kafka",
   "version": "1.0.0",
-  "description": "OSP-6 Kafka visualizer",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kafy-and-kube/kafka.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kafy-and-kube/kafka/issues"
-  },
-  "homepage": "https://github.com/kafy-and-kube/kafka#readme"
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "express": "^4.18.2",
+    "path": "^0.12.7"
+  }
 }
