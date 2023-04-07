@@ -18,16 +18,20 @@ document.querySelector('#button1').addEventListener('click', () => {
   if (!document.querySelector('#input2').value)
     document.querySelector('#input2').value = 1000;
 
-  const id = setInterval(() => {
-    send(document.querySelector('#input1').value--);
-    if (!(document.querySelector('#input1').value > 0)) clearInterval(id);
-  }, document.querySelector('#input2').value);
+  if(document.querySelector('#input1').value > 0){
+    const id = setInterval(() => {
+      send(document.querySelector('#input1').value--);
+      if (!(document.querySelector('#input1').value > 0)) clearInterval(id);
+    }, document.querySelector('#input2').value);
+  }
 });
 
 const send = (input) => {
+  const input2 = (Math.random(5)*(10**17)).toString(36);
+  console.log(input2)
   fetch('/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ input: input }),
+    body: JSON.stringify({ input: input2}),
   });
 };
