@@ -11,7 +11,7 @@ document.querySelector('#button2').addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', (input) => {
-  if (listen) send(input.key);
+  if (listen) send2(input.key);
 });
 
 document.querySelector('#button1').addEventListener('click', () => {
@@ -33,5 +33,15 @@ const send = (input) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ input: input2}),
+  });
+};
+
+const send2 = (input) => {
+  const input2 = (Math.random(5)*(10**17)).toString(36);
+  console.log(input2)
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ input: input}),
   });
 };
