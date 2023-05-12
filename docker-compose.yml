@@ -1,5 +1,8 @@
 version: '3'
-
+volumes: 
+  grafana-data:
+    driver: local
+  jmx:
 services:
   zookeeper:
     image: zookeeper
@@ -15,6 +18,9 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://MATT-XPS:9092'
       KAFKA_ZOOKEEPER_CONNECT: MATT-XPS:2181
+      KAFKA_JMX_PORT: 7071
+      KAFKA_JMX_OPTS: -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_JMX_HOSTNAME: Kafka-JMX 
   kafka2:
     image: confluentinc/cp-kafka
     container_name: kafka2
@@ -24,6 +30,9 @@ services:
       KAFKA_BROKER_ID: 2
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://MATT-XPS:9093'
       KAFKA_ZOOKEEPER_CONNECT: MATT-XPS:2181
+      KAFKA_JMX_PORT: 7071
+      KAFKA_JMX_OPTS: -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_JMX_HOSTNAME: Kafka-JMX 
   kafka3:
     image: confluentinc/cp-kafka
     container_name: kafka3
@@ -33,3 +42,25 @@ services:
       KAFKA_BROKER_ID: 3
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://MATT-XPS:9094'
       KAFKA_ZOOKEEPER_CONNECT: MATT-XPS:2181
+      KAFKA_JMX_PORT: 7071
+      KAFKA_JMX_OPTS: -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_JMX_HOSTNAME: Kafka-JMX 
+  promtheus:
+    image: prom-jmx:latest
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+    volumes: 
+      - jmx:/jmx
+  kafka-app:
+    image: koffee-table-prom 
+    container_name: koffeetable
+    ports:
+      - '8080:3000'
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports: 
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
